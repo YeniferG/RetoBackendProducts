@@ -6,12 +6,12 @@ import reactor.core.publisher.Mono;
 
 public interface BuyRepository {
 
-    Mono<Buy> addBuy(Buy buy);
+    Mono<Buy> saveBuy(Buy buy);
 
-    Mono<Buy> settleBuy(Buy buy);
+    Mono<Boolean> productAvailability(Buy buy);
+
+    Mono<Boolean> productQuantities(String id);
 
     Mono<Void> deductProductQuantities(String id, String quantity);
-
-    Mono<Product> productAvailability(String id);
 
 }

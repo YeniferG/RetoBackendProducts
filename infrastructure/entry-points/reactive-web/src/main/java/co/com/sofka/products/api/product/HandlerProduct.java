@@ -44,4 +44,11 @@ public class HandlerProduct {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(productUseCase.deleteProduct(id), Product.class);
     }
+
+    public Mono<ServerResponse> listenFindByIdProductsUseCase(ServerRequest serverRequest) {
+        var id = serverRequest.pathVariable("id");
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(productUseCase.findProductById(id), Product.class);
+    }
 }

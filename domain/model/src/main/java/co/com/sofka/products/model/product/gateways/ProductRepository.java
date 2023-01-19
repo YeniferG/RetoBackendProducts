@@ -4,6 +4,8 @@ import co.com.sofka.products.model.product.Product;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 public interface ProductRepository {
     Mono<Product> addProduct(Product product);
 
@@ -12,4 +14,6 @@ public interface ProductRepository {
     Mono<Void> deleteProductById(String id);
 
     Mono<Product> updateProduct(String id, Product product);
+
+    Mono<Product> findById(String id);
 }

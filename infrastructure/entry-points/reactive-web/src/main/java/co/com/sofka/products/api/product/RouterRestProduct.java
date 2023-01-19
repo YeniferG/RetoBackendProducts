@@ -16,7 +16,8 @@ public RouterFunction<ServerResponse> routerFunctionProduct(HandlerProduct handl
     return route(POST("/api/product"), handler::listenPostAddProductUseCase)
             .andRoute(GET("/api/products"), handler::listenFindAllProductsUseCase)
             .andRoute(PUT("/api/product/{id}"), handler::listenUpdateProductUseCase)
-            .andRoute(DELETE("/api/product/{id}"), handler::listenDeleteProductUseCase);
+            .andRoute(DELETE("/api/product/{id}"), handler::listenDeleteProductUseCase)
+            .andRoute(GET("/api/product/{id}"), handler::listenFindByIdProductsUseCase);
 
     }
 }

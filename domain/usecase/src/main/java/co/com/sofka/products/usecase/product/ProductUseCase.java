@@ -26,4 +26,17 @@ public class ProductUseCase {
         return productRepository.updateProduct(id, product);
     }
 
+    public Mono<Product> findProductById(String id) {
+        return productRepository.findById(id);
+    }
+
+    public boolean existProduct(String id) {
+        return productRepository.findById(id).map(element -> {
+            if(element == null){
+                return false;
+            }
+            return true;
+        }).block();
+    }
+
 }

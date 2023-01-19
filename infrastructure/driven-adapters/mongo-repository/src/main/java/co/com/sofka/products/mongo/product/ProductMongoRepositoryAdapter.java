@@ -9,7 +9,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
-public class ProductMongoRepositoryAdapter extends AdapterOperations<Product/* change for domain model */, ProductDocument/* change for adapter model */, String, ProductMongoDBRepository> implements ProductRepository {
+public class ProductMongoRepositoryAdapter extends AdapterOperations<Product/* change for domain model */, ProductDocument/* change for adapter model */, String, ProductMongoDBRepository>
+implements ProductRepository
+{
 
     public ProductMongoRepositoryAdapter(ProductMongoDBRepository repository, ObjectMapper mapper) {
         /**
@@ -22,23 +24,40 @@ public class ProductMongoRepositoryAdapter extends AdapterOperations<Product/* c
 
     @Override
     public Mono<Product> addProduct(Product product) {
-        return repository.save(new ProductDocument(product.getId(), product.getName(), product.getInventory(), product.getEnabled(), product.getMax(), product.getMin())).flatMap(element -> Mono.just(product));
+        return repository.save(new ProductDocument(product.getId(), product.getName(), product.getInventory(), product.getEnabled(), product.getMax(), product.getMin())).flatMap(element -> {
+            product.setId(element.getId());
+            return Mono.just(product);
+        });
     }
 
     @Override
     public Flux<Product> findAllProducts() {
-        return repository.findAll().flatMap(element -> Flux.just(new Product(element.getId(), element.getName(), element.getInventory(), element.getEnabled(), element.getMin(), element.getMax())));
+        return repository.findAll().flatMap(
+                element -> Flux.just(new Product(element.getId(), element.getName(), element.getInventory(), element.getEnabled(), element.getMin(), element.getMax())
+                ));
     }
 
     @Override
     public Mono<Void> deleteProductById(String id) {
-        return repository.deleteById(
-                id
-        );
+        return null;
     }
 
     @Override
     public Mono<Product> updateProduct(String id, Product product) {
-        return repository.save(new ProductDocument(id, product.getName(), product.getInventory(), product.getEnabled(), product.getMax(), product.getMin())).flatMap(element -> Mono.just(product));
+        return repository.save(
+                new ProductDocument(
+                        id,
+                        product.getName(),
+                        product.getInventory(),
+                        product.getEnabled(),
+                        product.getMax(),
+                        product.getMin()
+                )
+        ).flatMap(element -> Mono.just(product));
+    }
+
+    @Override
+    public Mono<Product> findById(String id) {
+        return repository.findById(id).flatMap(element -> Mono.just(new Product(element.getId(), element.getName(), element.getInventory(), element.getEnabled(), element.getMin(), element.getMax())));
     }
 }
