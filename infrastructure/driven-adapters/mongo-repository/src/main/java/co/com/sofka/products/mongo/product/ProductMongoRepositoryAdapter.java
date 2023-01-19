@@ -50,8 +50,8 @@ implements ProductRepository
                         product.getName(),
                         product.getInventory(),
                         product.getEnabled(),
-                        product.getMax(),
-                        product.getMin()
+                        product.getMin(),
+                        product.getMax()
                 )
         ).flatMap(element -> Mono.just(product));
     }
@@ -59,5 +59,10 @@ implements ProductRepository
     @Override
     public Mono<Product> findById(String id) {
         return repository.findById(id).flatMap(element -> Mono.just(new Product(element.getId(), element.getName(), element.getInventory(), element.getEnabled(), element.getMin(), element.getMax())));
+    }
+
+    @Override
+    public Mono<Boolean> existsById(String id) {
+        return repository.existsById(id);
     }
 }

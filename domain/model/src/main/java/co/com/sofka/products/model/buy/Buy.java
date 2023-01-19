@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,9 +17,9 @@ import java.util.List;
 public class Buy {
 
     private String id;
-    private Date date;
+    private LocalDateTime date;
     private String clientTypeDocument;
-    private Integer clientIdentification;
+    private Long clientIdentification;
     private String clientName;
     private List<ProductsInfo> products;
 }

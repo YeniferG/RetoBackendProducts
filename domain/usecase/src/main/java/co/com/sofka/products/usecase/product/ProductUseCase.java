@@ -30,13 +30,8 @@ public class ProductUseCase {
         return productRepository.findById(id);
     }
 
-    public boolean existProduct(String id) {
-        return productRepository.findById(id).map(element -> {
-            if(element == null){
-                return false;
-            }
-            return true;
-        }).block();
+    public boolean existsById(String id) {
+        return productRepository.existsById(id).toFuture().join();
     }
 
 }

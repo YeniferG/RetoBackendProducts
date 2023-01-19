@@ -3,9 +3,9 @@ package co.com.sofka.products.mongo.buy;
 import co.com.sofka.products.model.buy.Buy;
 import co.com.sofka.products.model.buy.gateways.BuyRepository;
 import co.com.sofka.products.mongo.helper.AdapterOperations;
-import co.com.sofka.products.usecase.product.ProductUseCase;
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
@@ -22,11 +22,35 @@ public class BuyMongoRepositoryAdapter extends AdapterOperations<Buy/* change fo
 
     @Override
     public Mono<Buy> saveBuy(Buy buy) {
-        return repository.save(new BuyDocument(buy.getId(), buy.getDate(), buy.getClientTypeDocument(), buy.getClientIdentification(), buy.getClientName(), buy.getProducts())).flatMap(element -> Mono.just(buy));
+        return repository.save(
+                        new BuyDocument(
+                                buy.getId(),
+                                buy.getDate(),
+                                buy.getClientTypeDocument(),
+                                buy.getClientIdentification(),
+                                buy.getClientName(),
+                                buy.getProducts()))
+                .flatMap(element -> {
+                    buy.setId(element.getId());
+                    return Mono.just(buy);
+                });
     }
 
     @Override
-    public Mono<Boolean> productAvailability(String id) {
+    public Flux<Buy> findAllBuy() {
+        return repository.findAll().flatMap(
+                buy -> Flux.just(
+                        new Buy(buy.getId(),
+                                buy.getDate(),
+                                buy.getClientTypeDocument(),
+                                buy.getClientIdentification(),
+                                buy.getClientName(),
+                                buy.getProducts()
+                        )));
+    }
+
+    @Override
+    public Mono<Boolean> productAvailability(Buy buy) {
         return null;
     }
 

@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +22,9 @@ public class BuyDocument {
 
     @Id
     private String id;
-    private Date date;
+    private LocalDateTime date;
     private String clientTypeDocument;
-    private Integer clientIdentification;
+    private Long clientIdentification;
     private String clientName;
     private List<ProductsInfo> products;
 

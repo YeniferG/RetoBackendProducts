@@ -16,4 +16,6 @@ public interface ProductRepository {
     Mono<Product> updateProduct(String id, Product product);
 
     Mono<Product> findById(String id);
+
+    Mono<Boolean> existsById(String id);
 }
