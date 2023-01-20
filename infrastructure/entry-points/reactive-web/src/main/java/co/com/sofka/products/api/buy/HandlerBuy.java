@@ -5,6 +5,7 @@ import co.com.sofka.products.model.product.Product;
 import co.com.sofka.products.usecase.buy.BuyUseCase;
 import co.com.sofka.products.usecase.product.ProductUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -17,10 +18,9 @@ public class HandlerBuy {
     private final BuyUseCase buyUseCase;
 
     public Mono<ServerResponse> listenPostAddBuyUseCase(ServerRequest serverRequest) {
-        return serverRequest.bodyToMono(Buy.class)
-                .flatMap(buy -> ServerResponse.ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(buyUseCase.saveBuy(buy), Buy.class));
+        return serverRequest.bodyToMono(Buy.class).flatMap(buy ->
+                buyUseCase.saveBuy(buy).flatMap(success -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(success))
+                        .onErrorResume(error -> Mono.just(error.getMessage()).flatMap(s -> ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.TEXT_PLAIN).bodyValue(s))));
     }
 
     public Mono<ServerResponse> listenFindAllBuysUseCase(ServerRequest serverRequest) {

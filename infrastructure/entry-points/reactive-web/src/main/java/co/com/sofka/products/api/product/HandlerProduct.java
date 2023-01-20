@@ -24,9 +24,11 @@ public class HandlerProduct {
     }
 
     public Mono<ServerResponse> listenFindAllProductsUseCase(ServerRequest serverRequest) {
+        var page = Integer.parseInt(serverRequest.queryParams().get("page").get(0));
+        var size = Integer.parseInt(serverRequest.queryParams().get("size").get(0));
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(productUseCase.findAllProducts(), Product.class);
+                .body(productUseCase.findAllProducts().skip(page * size).take(size), Product.class);
     }
 
     public Mono<ServerResponse> listenUpdateProductUseCase(ServerRequest serverRequest) {

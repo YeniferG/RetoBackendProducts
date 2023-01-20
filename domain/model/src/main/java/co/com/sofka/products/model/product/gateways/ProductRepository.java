@@ -4,6 +4,7 @@ import co.com.sofka.products.model.product.Product;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.awt.print.Pageable;
 import java.util.Optional;
 
 public interface ProductRepository {
