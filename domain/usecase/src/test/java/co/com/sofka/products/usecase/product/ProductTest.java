@@ -85,7 +85,7 @@ public class ProductTest {
         Product product = new Product("123", "Yeni", 50, true, 1, 45 );
 
         Mono<Void> voidMono = Mono.empty();
-        when(productRepository.deleteProductById("123")).thenReturn(voidMono);
+        when(productRepository.deleteById("123")).thenReturn(voidMono);
 
         //ACT
         StepVerifier.create(productUseCase.deleteProduct("123"))

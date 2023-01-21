@@ -19,7 +19,7 @@ public class ProductUseCase {
     }
 
     public Mono<Void> deleteProduct(String id) {
-        return productRepository.deleteProductById(id);
+        return productRepository.deleteById(id);
     }
 
     public Mono<Product> updateProduct(String id, Product product) {

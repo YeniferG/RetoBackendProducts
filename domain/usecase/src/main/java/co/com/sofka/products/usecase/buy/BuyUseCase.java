@@ -25,7 +25,7 @@ public class BuyUseCase {
 
     public Mono<Buy> saveBuy(Buy buy) {
 
-        return Mono.just(Arrays.asList(buy.getId(), buy.getClientTypeDocument(), buy.getClientIdentification(), buy.getClientName())
+        return Mono.just(Arrays.asList(buy.getClientTypeDocument(), buy.getClientIdentification(), buy.getClientName())
                                 .stream()
                                 .filter(field -> isNull(field))
                                 .collect(Collectors.toList()))
