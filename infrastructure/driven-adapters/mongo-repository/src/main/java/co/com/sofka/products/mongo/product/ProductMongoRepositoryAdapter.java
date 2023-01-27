@@ -28,8 +28,8 @@ public class ProductMongoRepositoryAdapter extends AdapterOperations<Product/* c
                 product.getName(),
                 product.getInventory(),
                 product.getEnabled(),
-                product.getMax(),
-                product.getMin())
+                product.getMin(),
+                product.getMax())
         ).flatMap(element -> {
             product.setId(element.getId());
             return Mono.just(product);
